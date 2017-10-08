@@ -9,7 +9,7 @@ import { TabNavigator, TabBarBottom } from 'react-navigation';
 import Colors from '../constants/Colors';
 
 import HomeScreen from '../screens/HomeScreen';
-import NationalScreen from '../screens/NationalScreen';
+import CategoryScreen from '../screens/CategoryScreen';
 import ProfileScreen from '../screens/ProfileScreen';
 
 
@@ -22,8 +22,8 @@ export default TabNavigator({
       showIcon: true
     }
   },
-  Unkown: {
-    screen: NationalScreen,
+  Categories: {
+    screen: CategoryScreen,
     navigationOptions: {
       showLabel: false,
       tabBarIcon: <Image source={require('../assets/icons/categoriesIconInactive.png')}/>,
