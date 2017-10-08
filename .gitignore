@@ -1,4 +1,4 @@
+*__pycache__
 *service_account.json
-__pycache__/
 *api_keys.json
-
+*.articles.json
