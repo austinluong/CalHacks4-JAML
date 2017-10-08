@@ -2,19 +2,71 @@ import React from 'react';
 import {
   Image,
   StyleSheet,
+  ScrollView,
   Text,
   View,
   Slider,
+  TouchableOpacity,
 } from 'react-native';
 
-class SliderEntry extends React.Component {
+class ChangeState extends React.Component {
+
+  constructor(props) {
+    super(props);
+    this.state = { uri: require('../assets/images/zeroStatePlusIcon.png') }
+  }
+
+  changeLogo() {
+    this.setState({
+      uri: require('../assets/images/activeStateCategoryIcon.png')
+    });
+  }
   render() {
     return (
-      <View style={styles.sliderEntry}>
-        <Text style={styles.sliderLabel}>
+      <TouchableOpacity onPress={() => this.changeLogo()}>
+        <View style={styles.stateContainer}>
+        <View style={{flexDirection: 'row-reverse'}}>
+            <Image
+              source={
+                  this.state.uri            
+              }   
+              style={styles.state}>
+            </Image>         
+        </View> 
+        </View>
+      </TouchableOpacity>
+
+    )
+
+
+  }
+}
+
+class SelectionEntry extends React.Component {
+  render() {
+    return (
+      <View style={{flexDirection: 'row'}}>
+        <View>
+          <Image
+            source={
+                require('../assets/images/circle-xxl.png')            
+            }   
+            style={styles.circle}>
+            <View>
+              <Image
+                source={this.props.image} 
+                style={styles.icon}
+              />
+            </View> 
+          </Image>         
+        </View>
+
+        <Text style={styles.category}>
           {this.props.label}
         </Text>
-        <Slider maximumTrackTintColor="#ffa600" thumbTintColor="#ffa600" />
+
+        <ChangeState />
+        
       </View>
     )
   }
@@ -24,7 +76,11 @@ export default class CategoryScreen extends React.Component {
   render() {
     return (
     <View style={styles.container}>
+      <ScrollView
+        style={styles.container}
+        contentContainerStyle={styles.contentContainer}>
         <View style={styles.padded}>
+
           <Text style={styles.header}>Categories </Text>
           <View
             style={{
@@ -34,14 +90,22 @@ export default class CategoryScreen extends React.Component {
             }}
           />
           <Text style={styles.regular}>
-            Curate your newsfeed by adjusting the filters below.
+
           </Text>
 
-          <SliderEntry label="Positivity"></SliderEntry>
-          <SliderEntry label="Likes"></SliderEntry>
-          <SliderEntry label="Trustworthiness"></SliderEntry>
+          <SelectionEntry label="Gaming" image={require('../assets/images/gameboy.png')}></SelectionEntry>
+          <SelectionEntry label="General" image={require('../assets/images/us.png')}></SelectionEntry>
+          <SelectionEntry label="Education" image={require('../assets/images/education.png')}></SelectionEntry>
+          <SelectionEntry label="Business" image={require('../assets/images/business.png')}></SelectionEntry>
+          <SelectionEntry label="Technology" image={require('../assets/images/technology.png')}></SelectionEntry>
+          <SelectionEntry label="Entertainment" image={require('../assets/images/entertainment.png')}></SelectionEntry>
+          <SelectionEntry label="Sports" image={require('../assets/images/sports.png')}></SelectionEntry>
+          <SelectionEntry label="Science & Nature" image={require('../assets/images/science.png')}></SelectionEntry>
+          <SelectionEntry label="Music" image={require('../assets/images/music.png')}></SelectionEntry>
         </View>
-      </View>
+      </ScrollView>
+
+    </View>
     );
   }
 }
@@ -58,18 +122,21 @@ const styles = StyleSheet.create({
     paddingTop: 30,
   },
   regular: {
-    paddingTop: 10,
+    paddingVertical: 5,
     fontSize: 16,
     textAlign: 'left',
     fontFamily: 'circular-book',
     color: 'rgb(74, 74, 74)',
   },
-  sliderLabel: {
-    fontSize: 16,
+  category: {
+    fontSize: 26,
+    height:70,
+    width: 200,
     textAlign: 'left',
     fontFamily: 'circular-book',
     color: 'rgb(74, 74, 74)',
-    paddingBottom: 15,
+    paddingVertical:20,
+    paddingLeft: 20,
   },
   header: {
     fontWeight: 'bold',
@@ -78,8 +145,26 @@ const styles = StyleSheet.create({
     fontFamily: 'circular-bold',
     color: 'rgb(74, 74, 74)',
   },
-  sliderEntry: {
-    paddingTop: 20,
-    paddingBottom: 10,
+  icon: {
+    width: 35,
+    height: 35,
+    resizeMode: 'contain',
+    padding: 20,
+    flex: 0.1,
+  },
+  circle: {
+    width:60,
+    height:60,
+    padding: 10,
+    resizeMode: 'contain',
+  }, 
+  stateContainer: {
+    padding: 10,
+  },
+  state: {
+    width: 45,
+    height: 45,
+    alignItems: 'flex-end',
+    resizeMode: 'contain',
   },
 });
