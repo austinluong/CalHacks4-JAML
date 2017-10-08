@@ -16,13 +16,16 @@ import {
   WebBrowser,
 } from 'expo';
 
+
 import { MonoText } from '../components/StyledText';
 import articles from '../assets/articles.json';
+var Browser = require('react-native-browser');
 
 class NewsEntry extends React.Component {
   render() {
     return (
       <TouchableOpacity style={styles.newsEntry} onPress={()=> {
+        Expo.WebBrowser.openBrowserAsync(this.props.url);
         }}>
       <View>
           <View>
@@ -67,6 +70,7 @@ class NewsEntryRow extends React.Component {
           time={this.props.time0}
           title={this.props.title0}
           imgURL={this.props.imgURL0}
+          url={this.props.url0}
           >
         </NewsEntry>
         <View style={styles.spacer}></View>
@@ -75,6 +79,7 @@ class NewsEntryRow extends React.Component {
           time={this.props.time1}
           title={this.props.title1}
           imgURL={this.props.imgURL1}
+          url={this.props.url1}
           >
         </NewsEntry>        
       </View>
@@ -86,7 +91,8 @@ export default class HomeScreen extends React.Component {
   render() {
     var newsEntryRows = [];
     var limit = 40;
-    for (var i = 0; i < articles.length; i += 2) {
+    var article_limit = 50;
+    for (var i = 0; i < article_limit; i += 2) {
       if (articles[i].title.length > limit) {
         articles[i].title = articles[i].title.slice(0, limit - 3) + '...';
       }
@@ -100,10 +106,12 @@ export default class HomeScreen extends React.Component {
           time0={articles[i].date}
           title0={articles[i].title}
           imgURL0={articles[i].top_image_url}
+          url0={articles[i].url}
           source1={articles[i + 1].source}
           time1={articles[i + 1].date}
           title1={articles[i + 1].title}
           imgURL1={articles[i + 1].top_image_url}
+          url1={articles[i + 1].url}
         >
         </NewsEntryRow>
         )
