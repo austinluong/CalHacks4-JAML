@@ -9,8 +9,8 @@ from newsapi.articles import Articles
 
 config = newspaper.Config()
 config.memoize_articles = False
-
-NEWSAPI_KEY = json.load(open('api_keys.json'))['key']
+with open('api_keys.json') as keyfile:
+    NEWSAPI_KEY = json.load(keyfile)['key']
 news_container = Articles(API_KEY=NEWSAPI_KEY)
 
 
@@ -23,9 +23,11 @@ def get_news():
     nyt = news_container.get_by_top(source="the-new-york-times")
 
     papers = [bbc_news, wsj, natgeo, reuters, nyt]
+    categories = {bbc_news['source']: 'general', wsj['source']: 'business', 
+        natgeo['source']: 'science', reuters['source']: 'general',
+        nyt['source']:'general'}
 
     output = list()
-
     for paper in papers:
         for article in paper['articles']:
             # Save article metadata from newsapi
@@ -37,6 +39,7 @@ def get_news():
             art_out['date'] = article['publishedAt']
             art_out['description'] = article['description']
             art_out['authors'] = article['author']
+            art_out['category'] = categories[paper['source']]
 
             # Download and Parse article using newspaper3k
             art_parsed = newspaper.Article(article['url'])
@@ -46,6 +49,7 @@ def get_news():
             art_out['text'] = art_parsed.text
             art_parsed.nlp()
             art_out['summary'] = art_parsed.summary
-
             output.append(art_out)
+    with open('sample_articles.json', 'w') as sample:
+        json.dump(output, sample)
     return output
