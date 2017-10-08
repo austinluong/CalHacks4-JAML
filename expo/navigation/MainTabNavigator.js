@@ -45,5 +45,10 @@ export default TabNavigator({
     showLabel: false,
     animationEnabled: true,
     swipeEnabled: false,
-  
+    tabBarOptions: {
+      activeTintColor: '#ffa600',
+      labelStyle: {
+        fontFamily: 'circular-medium'
+      },
+    },
 });

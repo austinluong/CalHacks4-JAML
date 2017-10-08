@@ -21,6 +21,58 @@ import { MonoText } from '../components/StyledText';
 import articles from '../assets/articles.json';
 var Browser = require('react-native-browser');
 
+class TopNewsEntry extends React.Component {
+  render() {
+    return (
+      <TouchableOpacity style={styles.topNewsEntry} onPress={()=> {
+        Expo.WebBrowser.openBrowserAsync(this.props.url);
+        }}>
+      <View>
+          <View>
+            <Image
+              style={{width: 340, height: 190 }}
+              source={{uri: this.props.imgURL}}
+              />
+          </View> 
+          <Text style={styles.source}>{this.props.source}</Text>
+          <Text style={styles.topTitle}>{this.props.title}</Text>
+          <View style={{justifyContent: 'space-between'}}>
+            <View>
+              <Text style={styles.time}>{this.props.time}</Text>
+            </View>
+            <View style={styles.shareContainer}>
+              <View>
+                <Image
+                  source={
+                      require('../assets/images/heart.png')            
+                  }
+                  style={styles.littlebuttons}
+                />
+              </View>
+              <View>
+                <Image
+                  source={
+                      require('../assets/images/share.png')            
+                  }
+                  style={styles.littlebuttons}
+                />
+              </View>
+              <View>
+                <Image
+                  source={
+                      require('../assets/images/bookmark.png')            
+                  }
+                  style={styles.littlebuttons}
+                />
+              </View>
+            </View>
+          </View>
+      </View>
+    </TouchableOpacity> 
+    )
+  }
+}
+
 class NewsEntry extends React.Component {
   render() {
     return (
@@ -111,12 +163,12 @@ export default class HomeScreen extends React.Component {
         <NewsEntryRow
           key={i}
           source0={articles[i].source}
-          time0={articles[i].date}
+          time0={"Posted " + articles[i].date}
           title0={articles[i].title}
           imgURL0={articles[i].top_image_url}
           url0={articles[i].url}
           source1={articles[i + 1].source}
-          time1={articles[i + 1].date}
+          time1={"Posted " + articles[i + 1].date}
           title1={articles[i + 1].title}
           imgURL1={articles[i + 1].top_image_url}
           url1={articles[i + 1].url}
@@ -152,6 +204,14 @@ export default class HomeScreen extends React.Component {
                 borderBottomWidth: 1,
               }}
             />
+            <TopNewsEntry
+              source={articles[0].source}
+              time={"Posted " + articles[0].date}
+              title={articles[0].title}
+              imgURL={articles[0].top_image_url}
+              url={articles[0].url}
+            >
+            </TopNewsEntry>
             {newsEntryRows}
           </View>
         </ScrollView>
@@ -196,6 +256,7 @@ const styles = StyleSheet.create({
     flex: 0.1,
   },
   source: {
+    paddingTop: 5,
     fontSize: 14,
     fontFamily: 'circular-medium',
     color: 'rgb(90,182,161)',
@@ -208,6 +269,11 @@ const styles = StyleSheet.create({
     paddingTop: 10, 
     paddingBottom: 10,
     fontSize: 18,
+    fontFamily: 'circular-book',
+  },
+  topTitle: {
+    paddingTop: 5, 
+    fontSize: 26,
     fontFamily: 'circular-book',
   },
   littlebuttons: {
@@ -230,5 +296,10 @@ const styles = StyleSheet.create({
   },
   newsEntry: {
     flex: 0.6,
+  },
+  topNewsEntry: {
+    paddingTop: 20,
+    paddingBottom: 20,
+    flex: 1,
   }
 });
