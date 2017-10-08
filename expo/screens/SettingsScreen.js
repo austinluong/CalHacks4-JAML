@@ -14,7 +14,7 @@ class SliderEntry extends React.Component {
         <Text style={styles.sliderLabel}>
           {this.props.label}
         </Text>
-        <Slider maximumTrackTintColor="#ffa600" thumbTintColor="#ffa600" />
+        <Slider maximumTrackTintColor="#ffa600" thumbTintColor="#ffa600" value={0.5}/>
       </View>
     )
   }
@@ -25,7 +25,19 @@ export default class SettingsScreen extends React.Component {
     return (
     <View style={styles.container}>
         <View style={styles.padded}>
-          <Text style={styles.header}>Settings</Text>
+          <View style={{flexDirection: 'row', justifyContent:'space-between'}}>
+            <View>
+              <Text style={styles.header}>Settings</Text>
+            </View>
+            <View>
+              <Image
+                source={
+                    require('../assets/images/logo.png')
+                }
+                style={styles.logo}
+              />
+            </View> 
+        </View>
           <View
             style={{
               borderBottomColor: 'rgb(151, 151, 151)',
@@ -72,7 +84,6 @@ const styles = StyleSheet.create({
     paddingBottom: 15,
   },
   header: {
-    fontWeight: 'bold',
     fontSize: 40,
     textAlign: 'left',
     fontFamily: 'circular-bold',
@@ -81,5 +92,10 @@ const styles = StyleSheet.create({
   sliderEntry: {
     paddingTop: 20,
     paddingBottom: 10,
+  },
+  logo: {
+    width: 41,
+    height: 37.4,
+    justifyContent: 'flex-start',
   },
 });

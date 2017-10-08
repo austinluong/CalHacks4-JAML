@@ -30,7 +30,7 @@ class NewsEntry extends React.Component {
       <View>
           <View>
             <Image
-              style={{width: 120, height: 120}}
+              style={{width: 130, height: 130}}
               source={{uri: this.props.imgURL}}
               />
           </View> 
@@ -38,6 +38,14 @@ class NewsEntry extends React.Component {
           <Text style={styles.time}>{this.props.time}</Text>
           <Text style={styles.title}>{this.props.title}</Text>
           <View style={styles.shareContainer}>
+            <View>
+              <Image
+                source={
+                    require('../assets/images/heart.png')            
+                }
+                style={styles.littlebuttons}
+              />
+            </View>
             <View>
               <Image
                 source={
@@ -92,7 +100,7 @@ export default class HomeScreen extends React.Component {
     var newsEntryRows = [];
     var limit = 40;
     var article_limit = 50;
-    for (var i = 0; i < article_limit; i += 2) {
+    for (var i = 1; i < article_limit - 1; i += 2) {
       if (articles[i].title.length > limit) {
         articles[i].title = articles[i].title.slice(0, limit - 3) + '...';
       }
@@ -123,7 +131,7 @@ export default class HomeScreen extends React.Component {
           contentContainerStyle={styles.contentContainer}>
           <View style={styles.padded}>
 
-            <View style={{flexDirection: 'row'}}>
+            <View style={{flexDirection: 'row', justifyContent:'space-between'}}>
               <View>
                 <Text style={styles.datetext}>Sunday Oct. 8, 2017</Text>
                 <Text style={styles.header}>Positive Post</Text>
@@ -140,7 +148,7 @@ export default class HomeScreen extends React.Component {
 
             <View
               style={{
-                borderBottomColor: 'black',
+                borderBottomColor: 'rgb(151, 151, 151)',
                 borderBottomWidth: 1,
               }}
             />
@@ -180,9 +188,9 @@ const styles = StyleSheet.create({
     color: 'rgb(74, 74, 74)',
   },
   logo: {
-    width: 60,
-    height: 60,
-    padding: 30,
+    width: 41,
+    height: 37.4,
+    justifyContent: 'flex-start',
   },
   spacer: {
     flex: 0.1,
@@ -221,6 +229,6 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
   },
   newsEntry: {
-    flex: 0.5,
+    flex: 0.6,
   }
 });

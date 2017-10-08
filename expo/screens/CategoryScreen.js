@@ -81,7 +81,20 @@ export default class CategoryScreen extends React.Component {
         contentContainerStyle={styles.contentContainer}>
         <View style={styles.padded}>
 
-          <Text style={styles.header}>Categories </Text>
+          <View style={{flexDirection: 'row', justifyContent:'space-between'}}>
+            <View>
+              <Text style={styles.header}>Categories</Text>
+            </View>
+            <View>
+              <Image
+                source={
+                    require('../assets/images/logo.png')
+                }
+                style={styles.logo}
+              />
+            </View> 
+          </View>
+
           <View
             style={{
               borderBottomColor: 'rgb(151, 151, 151)',
@@ -139,7 +152,6 @@ const styles = StyleSheet.create({
     paddingLeft: 20,
   },
   header: {
-    fontWeight: 'bold',
     fontSize: 40,
     textAlign: 'left',
     fontFamily: 'circular-bold',
@@ -166,5 +178,10 @@ const styles = StyleSheet.create({
     height: 45,
     alignItems: 'flex-end',
     resizeMode: 'contain',
+  },
+  logo: {
+    width: 41,
+    height: 37.4,
+    justifyContent: 'flex-start',
   },
 });

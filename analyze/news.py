@@ -23,7 +23,6 @@ def get_news():
     reuters = news_container.get_by_top(source="reuters")
     nyt = news_container.get_by_top(source="the-new-york-times")
 
-    newsweek = news_container.get_by_top(source="newsweek")
     techcrunch = news_container.get_by_top(source="techcrunch")
     espn = news_container.get_by_top(source="espn")
     independent = news_container.get_by_top(source="independent")
@@ -34,22 +33,20 @@ def get_news():
     bus_insider = news_container.get_by_top(source="business-insider")
     recode = news_container.get_by_top(source="recode")
 
-    papers = [bbc_news, wsj, natgeo, reuters, nyt, newsweek,
+    papers = [bbc_news, wsj, natgeo, reuters, nyt,
         techcrunch, espn, independent, polygon, time_mag, huffpost,
         bbc_sport, bus_insider, recode]
     categories = {bbc_news['source']: 'general', wsj['source']: 'business', 
         natgeo['source']: 'science', reuters['source']: 'general',
-        nyt['source']:'general', 
-        newsweek['source']: 'general', techcrunch['source']: 'technology', 
+        nyt['source']:'general', techcrunch['source']: 'technology', 
         espn['source']: 'sport', independent['source']: 'general',
         polygon['source']:'gaming', 
         time_mag['source']: 'general', huffpost['source']: 'business', 
         bbc_sport['source']: 'sport', bus_insider['source']: 'business',
         recode['source']:'technology'}
     formatted_source = {bbc_news['source']: 'BBC News', wsj['source']: 'Wall Street Journal', 
-        natgeo['source']: 'science', reuters['source']: 'general',
-        nyt['source']:'New York Times', 
-        newsweek['source']: 'Newsweek', techcrunch['source']: 'TechCrunch', 
+        natgeo['source']: 'National Geographic', reuters['source']: 'Reuters',
+        nyt['source']:'New York Times', techcrunch['source']: 'TechCrunch', 
         espn['source']: 'ESPN', independent['source']: 'Independent',
         polygon['source']:'Polygon', 
         time_mag['source']: 'Time', huffpost['source']: 'The Huffington Post', 
@@ -60,7 +57,6 @@ def get_news():
         natgeo['source']: datetime.timedelta(0, 7200,0), 
         reuters['source']: datetime.timedelta(0, 7200,0), 
         nyt['source']: datetime.timedelta(0, 18000,0), 
-        newsweek['source']: datetime.timedelta(0, 7200,0), 
         techcrunch['source']: datetime.timedelta(0, 7200,0), 
         espn['source']: datetime.timedelta(0, 7200,0),
         independent['source']: datetime.timedelta(0, 7200,0),
@@ -95,15 +91,18 @@ def get_news():
             else:
                 art_out['date'] = None
 
-            # Download and Parse article using newspaper3k
-            art_parsed = newspaper.Article(article['url'])
-            art_parsed.download()
-            art_parsed.parse()
-            # art_out['date'] = art_parsed.publish_date
-            art_out['text'] = art_parsed.text
-            art_parsed.nlp()
-            art_out['summary'] = art_parsed.summary
-            output.append(art_out)
+            try:
+                # Download and Parse article using newspaper3k
+                art_parsed = newspaper.Article(article['url'])
+                art_parsed.download()
+                art_parsed.parse()
+                # art_out['date'] = art_parsed.publish_date
+                art_out['text'] = art_parsed.text
+                art_parsed.nlp()
+                art_out['summary'] = art_parsed.summary
+                output.append(art_out)
+            except newspaper.article.ArticleException:
+                continue
     # with open('sample_articles.json', 'w') as sample:
     #     json.dump(output, sample)
     return output

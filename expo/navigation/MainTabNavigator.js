@@ -18,7 +18,7 @@ export default TabNavigator({
     screen: HomeScreen,
     navigationOptions: {
       header: null,
-      tabBarIcon: <Image source={require('../assets/icons/homeIcon.png')}/>,
+      tabBarIcon: <Image source={require('../assets/images/homeIcon.png')}/>,
       showIcon: true
     }
   },
