@@ -16,12 +16,12 @@ def get_news():
 
 	# TODO: Generalize for an input of different sources or something
 	bbc_news = news_container.get_by_top(source="bbc-news")
-	ggl_news = news_container.get_by_top(source="google-news")
+	wsj = news_container.get_by_top(source="the-wall-street-journal")
 	natgeo = news_container.get_by_top(source="national-geographic")
 	reuters = news_container.get_by_top(source="reuters")
 	nyt = news_container.get_by_top(source="the-new-york-times")
 
-	papers = [bbc_news, ggl_news, natgeo, reuters, nyt]
+	papers = [bbc_news, wsj, natgeo, reuters, nyt]
 
 	output = list()
 
@@ -29,6 +29,7 @@ def get_news():
 		for article in paper['articles']:
 			# Save article metadata from newsapi
 			art_out = dict()
+			art_out['source'] = paper['source']
 			art_out['title'] = article['title']
 			art_out['url'] = article['url']
 			art_out['top_image_url'] = article['urlToImage']
