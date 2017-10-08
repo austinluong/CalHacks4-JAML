@@ -1,9 +1,10 @@
-import argparse
+import os
 
 from google.cloud import language
 from google.cloud.language import enums
 from google.cloud.language import types
 
+os.environ['GOOGLE_APPLICATION_CREDENTIALS'] = 'service_account.json'
 
 def print_result(annotations, sentence_scores=False):
     score = annotations.document_sentiment.score
