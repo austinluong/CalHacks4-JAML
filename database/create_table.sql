@@ -8,7 +8,7 @@ CREATE TABLE articles (
     top_image_url VARCHAR NOT NULL,
     summary VARCHAR (5000) NOT NULL,
     description VARCHAR NOT NULL,
-    positivity_score DOUBLE PRECISION NOT NULL,
+    positivity_score int NOT NULL,
     trustworthiness DOUBLE PRECISION NOT NULL,
     likes INT NOT NULL
 );

@@ -37,6 +37,5 @@ def analyze(article_text):
         type=enums.Document.Type.PLAIN_TEXT)
     annotations = client.analyze_sentiment(document=document)
     score = annotations.document_sentiment.score
-    magnitude = annotations.document_sentiment.magnitude
 
-    return score * magnitude
+    return int(score * 100)
