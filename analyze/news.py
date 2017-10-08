@@ -2,56 +2,52 @@
 news.py:
 Scrapes news sites (urls) specified in util.SOURCES for articles.
 """
-import util
-import newspaper
-import NLKT
+import util, json
+import newspaper, nltk
+from newsapi.articles import Articles
 
 config = newspaper.Config()
 config.memoize_articles = False
 
-# TODO: Change it to the News API instead of newspaper
-cnn = newspaper.build(util.SOURCES[cnn], config)
-nbc = newspaper.build(util.SOURCES[nbc], config)
-bbc = newspaper.build(util.SOURCES[bbc], config)
-fox = newspaper.build(util.SOURCES[fox], config)
-nyt = newspaper.build(util.SOURCES[nyt], config)
+NEWSAPI_KEY = json.load(open('api_keys.json'))['key']
+news_container = Articles(API_KEY=NEWSAPI_KEY)
 
-papers = {'cnn': cnn, 
-	'nbc': nbc, 
-	'bbc': bbc,
-	'fox': fox,
-	'nyt': nyt}
+def get_news():
 
-output = list() # list of all the accessed articles. 
+	# TODO: Generalize for an input of different sources or something
+	bbc_news = news_container.get_by_top(source="bbc-news")
+	ggl_news = news_container.get_by_top(source="google-news")
+	natgeo = news_container.get_by_top(source="national-geographic")
+	reuters = news_container.get_by_top(source="reuters")
+	nyt = news_container.get_by_top(source="the-new-york-times")
 
-# Multithreaded load balancing for article downloads
-# newspaper.news_pool.set(papers, threads_per_source=2)
-# newspaper.news_pool.join()
+	papers = [bbc_news, ggl_news, natgeo, reuters, nyt]
 
-# If multithreading doesn't work use the following
-for paper in papers:
-	a_counter = 0
-	for article in papers[paper].articles:
-		if a_counter > util.ARTICLE_NUM:
-			break
-		article.download() # TODO: Make sure article is current or unique
-		article.parse()
-		art_out = dict()
-		art_out['title'] = article.title
-		art_out['url'] = article.url
-		art_out['text'] = article.text
-		# Make a default image for each paper
-		art_out['top_image_url'] = article.top_image # TODO: Change to new api
-		art_out['date'] = article.publish_date #TODO: Change to new api.
-		article.nlp()
-		art_out['summary'] = article.summary
+	output = list()
 
-		# art_out['description'] =  # TODO: implement with the new api
+	for paper in papers:
+		for article in paper['articles']:
+			# Save article metadata from newsapi
+			art_out = dict()
+			art_out['title'] = article['title']
+			art_out['url'] = article['url']
+			art_out['top_image_url'] = article['urlToImage']
+			art_out['date'] = article['publishedAt']
+			art_out['description'] = article['description']
+			art_out['authors'] = article['author']
 
-		output.append(art_out)
-		a_counter += 1
+			# Download and Parse article using newspaper3k
+			art_parsed = newspaper.Article(article['url'])
+			art_parsed.download()
+			art_parsed.parse()
+			art_out['text'] = art_parsed.text
+			art_parsed.nlp()
+			art_out['summary'] = art_parsed.summary
 
-return output
+			output.append(art_out)
+	# For testing
+	# json.dump(output, open('test_articles.txt', 'w'))
+	return output
 		
 
 
