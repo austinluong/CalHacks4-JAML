@@ -12,7 +12,7 @@ import os
 
 
 def main():
-    filename = 'articles.json'
+    filename = '../expo/assets/articles.json'
     if os.path.isfile(filename):
         with open(filename, 'r') as file:
             articles = json.load(file)
@@ -22,7 +22,7 @@ def main():
             article['score'] = analyze.analyze(article['text'])
 
         with open(filename, 'w') as file:
-            json.dump(articles, file)
+            json.dump(sorted(articles, key=lambda x: x['score']), file)
     save.save_to_database(articles)
 
 
