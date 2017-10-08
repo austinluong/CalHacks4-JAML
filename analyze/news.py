@@ -5,6 +5,7 @@ Scrapes news sites (urls) specified in util.SOURCES for articles.
 import json
 import newspaper
 import nltk
+import datetime
 from newsapi.articles import Articles
 
 config = newspaper.Config()
@@ -54,6 +55,21 @@ def get_news():
         time_mag['source']: 'Time', huffpost['source']: 'The Huffington Post', 
         bbc_sport['source']: 'BBC Sport', bus_insider['source']: 'Business Insider',
         recode['source']:'Recode'}
+    time_zone = {bbc_news['source']: datetime.timedelta(0, 36000,0), 
+        wsj['source']: datetime.timedelta(0, 18000,0), 
+        natgeo['source']: datetime.timedelta(0, 7200,0), 
+        reuters['source']: datetime.timedelta(0, 7200,0), 
+        nyt['source']: datetime.timedelta(0, 18000,0), 
+        newsweek['source']: datetime.timedelta(0, 7200,0), 
+        techcrunch['source']: datetime.timedelta(0, 7200,0), 
+        espn['source']: datetime.timedelta(0, 7200,0),
+        independent['source']: datetime.timedelta(0, 7200,0),
+        polygon['source']: datetime.timedelta(0, 7200,0), 
+        time_mag['source']: datetime.timedelta(0, 7200,0), 
+        huffpost['source']: datetime.timedelta(0, 7200,0), 
+        bbc_sport['source']: datetime.timedelta(0, 36000,0), 
+        bus_insider['source']: datetime.timedelta(0, 7200,0), 
+        recode['source']: datetime.timedelta(0, 7200,0)}
 
     output = list()
     for paper in papers:
@@ -64,10 +80,20 @@ def get_news():
             art_out['title'] = article['title']
             art_out['url'] = article['url']
             art_out['top_image_url'] = article['urlToImage']
-            art_out['date'] = article['publishedAt']
             art_out['description'] = article['description']
             art_out['authors'] = article['author']
             art_out['category'] = categories[paper['source']]
+            if article['publishedAt']:
+                time = datetime.datetime.strptime(article['publishedAt'], '%Y-%m-%dT%H:%M:%SZ')
+                time_diff = time + time_zone[paper['source']] - datetime.datetime.now()
+                if time_diff.days <= 0:
+                    temp = time_diff.seconds // 3600
+                    date = "%d hours ago" %temp
+                else:
+                    date = "%d days ago" %time_diff.days
+                art_out['date'] = date
+            else:
+                art_out['date'] = None
 
             # Download and Parse article using newspaper3k
             art_parsed = newspaper.Article(article['url'])
@@ -78,6 +104,6 @@ def get_news():
             art_parsed.nlp()
             art_out['summary'] = art_parsed.summary
             output.append(art_out)
-    with open('sample_articles.json', 'w') as sample:
-        json.dump(output, sample)
+    # with open('sample_articles.json', 'w') as sample:
+    #     json.dump(output, sample)
     return output
