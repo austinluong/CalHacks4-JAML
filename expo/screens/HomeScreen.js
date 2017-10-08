@@ -16,25 +16,27 @@ import {
   WebBrowser,
 } from 'expo';
 
+
 import { MonoText } from '../components/StyledText';
+import articles from '../assets/articles.json';
+var Browser = require('react-native-browser');
 
 class NewsEntry extends React.Component {
   render() {
     return (
       <TouchableOpacity style={styles.newsEntry} onPress={()=> {
-        // navigate('Page');
+        Expo.WebBrowser.openBrowserAsync(this.props.url);
         }}>
       <View>
           <View>
             <Image
-              source={
-                  require('../assets/images/robot-dev.png')
-              }
-            />
+              style={{width: 120, height: 120}}
+              source={{uri: this.props.imgURL}}
+              />
           </View> 
-          <Text style={styles.source}>Source</Text>
-          <Text style={styles.time}>Hours</Text>
-          <Text style={styles.title}>Title</Text>
+          <Text style={styles.source}>{this.props.source}</Text>
+          <Text style={styles.time}>{this.props.time}</Text>
+          <Text style={styles.title}>{this.props.title}</Text>
           <View style={styles.shareContainer}>
             <View>
               <Image
@@ -63,9 +65,23 @@ class NewsEntryRow extends React.Component {
   render() {
     return (
       <View style={styles.newsEntryRow}>
-        <NewsEntry></NewsEntry>        
+        <NewsEntry
+          source={this.props.source0}
+          time={this.props.time0}
+          title={this.props.title0}
+          imgURL={this.props.imgURL0}
+          url={this.props.url0}
+          >
+        </NewsEntry>
         <View style={styles.spacer}></View>
-        <NewsEntry></NewsEntry>
+        <NewsEntry
+          source={this.props.source1}
+          time={this.props.time1}
+          title={this.props.title1}
+          imgURL={this.props.imgURL1}
+          url={this.props.url1}
+          >
+        </NewsEntry>        
       </View>
     )
   }
@@ -73,6 +89,33 @@ class NewsEntryRow extends React.Component {
 
 export default class HomeScreen extends React.Component {
   render() {
+    var newsEntryRows = [];
+    var limit = 40;
+    var article_limit = 50;
+    for (var i = 0; i < article_limit; i += 2) {
+      if (articles[i].title.length > limit) {
+        articles[i].title = articles[i].title.slice(0, limit - 3) + '...';
+      }
+      if (articles[i + 1].title.length > limit) {
+        articles[i + 1].title = articles[i + 1].title.slice(0, limit - 3) + '...';
+      }
+      newsEntryRows.push(
+        <NewsEntryRow
+          key={i}
+          source0={articles[i].source}
+          time0={articles[i].date}
+          title0={articles[i].title}
+          imgURL0={articles[i].top_image_url}
+          url0={articles[i].url}
+          source1={articles[i + 1].source}
+          time1={articles[i + 1].date}
+          title1={articles[i + 1].title}
+          imgURL1={articles[i + 1].top_image_url}
+          url1={articles[i + 1].url}
+        >
+        </NewsEntryRow>
+        )
+    }
     return (
       <View style={styles.container}>
         <ScrollView
@@ -82,7 +125,7 @@ export default class HomeScreen extends React.Component {
 
             <View style={{flexDirection: 'row'}}>
               <View>
-                <Text style={styles.datetext}>Take3</Text>
+                <Text style={styles.datetext}>Sunday Oct. 8, 2017</Text>
                 <Text style={styles.header}>Positive Post</Text>
               </View>
               <View>
@@ -101,8 +144,7 @@ export default class HomeScreen extends React.Component {
                 borderBottomWidth: 1,
               }}
             />
-            <NewsEntryRow></NewsEntryRow>
-            <NewsEntryRow></NewsEntryRow>
+            {newsEntryRows}
           </View>
         </ScrollView>
       </View>
@@ -118,8 +160,8 @@ const styles = StyleSheet.create({
   },
   padded: {
     flex:1,
-    marginLeft: 30,
-    marginRight: 30,
+    paddingLeft: 30,
+    paddingRight: 30,
     paddingTop: 30,
   },
   centeredline: {
@@ -132,7 +174,6 @@ const styles = StyleSheet.create({
     color: 'rgb(74, 74, 74)',
   },
   header: {
-    fontWeight: 'bold',
     fontSize: 40,
     textAlign: 'left',
     fontFamily: 'circular-bold',
@@ -180,6 +221,6 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
   },
   newsEntry: {
-    flex: 0.4,
+    flex: 0.5,
   }
 });
