@@ -45,13 +45,22 @@ def get_news():
         time_mag['source']: 'general', huffpost['source']: 'business', 
         bbc_sport['source']: 'sport', bus_insider['source']: 'business',
         recode['source']:'technology'}
+    formatted_source = {bbc_news['source']: 'BBC News', wsj['source']: 'Wall Street Journal', 
+        natgeo['source']: 'science', reuters['source']: 'general',
+        nyt['source']:'New York Times', 
+        newsweek['source']: 'Newsweek', techcrunch['source']: 'TechCrunch', 
+        espn['source']: 'ESPN', independent['source']: 'Independent',
+        polygon['source']:'Polygon', 
+        time_mag['source']: 'Time', huffpost['source']: 'The Huffington Post', 
+        bbc_sport['source']: 'BBC Sport', bus_insider['source']: 'Business Insider',
+        recode['source']:'Recode'}
 
     output = list()
     for paper in papers:
         for article in paper['articles']:
             # Save article metadata from newsapi
             art_out = dict()
-            art_out['source'] = paper['source']
+            art_out['source'] = formatted_source[paper['source']]
             art_out['title'] = article['title']
             art_out['url'] = article['url']
             art_out['top_image_url'] = article['urlToImage']
