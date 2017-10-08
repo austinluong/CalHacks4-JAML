@@ -28,6 +28,7 @@ class TopNewsEntry extends React.Component {
         Expo.WebBrowser.openBrowserAsync(this.props.url);
         }}>
       <View>
+          <Text style={styles.positiveText}>MOST POSITIVE NEWS</Text>
           <View>
             <Image
               style={{width: 340, height: 190 }}
@@ -290,8 +291,8 @@ const styles = StyleSheet.create({
 
   },
   newsEntryRow: {
-    paddingTop: 20,
-    paddingBottom: 20,
+    paddingTop: 15,
+    paddingBottom: 15,
     flexDirection: 'row',
   },
   newsEntry: {
@@ -301,5 +302,11 @@ const styles = StyleSheet.create({
     paddingTop: 20,
     paddingBottom: 20,
     flex: 1,
-  }
+  },
+  positiveText: {
+    color: "#ffa600",
+    fontSize: 16,
+    paddingBottom: 10,
+    fontFamily: 'circular-bold',
+  },
 });
