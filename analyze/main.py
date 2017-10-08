@@ -21,6 +21,7 @@ def main():
         for article in articles:
             article['score'] = analyze.analyze(article['text'])
 
+        articles.sort(key=lambda x: x['score'], reverse=True)
         with open(filename, 'w') as file:
             json.dump(articles, file)
     save.save_to_database(articles)
