@@ -22,10 +22,29 @@ def get_news():
     reuters = news_container.get_by_top(source="reuters")
     nyt = news_container.get_by_top(source="the-new-york-times")
 
-    papers = [bbc_news, wsj, natgeo, reuters, nyt]
+    newsweek = news_container.get_by_top(source="newsweek")
+    techcrunch = news_container.get_by_top(source="techcrunch")
+    espn = news_container.get_by_top(source="espn")
+    independent = news_container.get_by_top(source="independent")
+    polygon = news_container.get_by_top(source="polygon")    
+    time_mag = news_container.get_by_top(source="time")
+    huffpost = news_container.get_by_top(source="the-huffington-post")
+    bbc_sport = news_container.get_by_top(source="bbc-sport")
+    bus_insider = news_container.get_by_top(source="business-insider")
+    recode = news_container.get_by_top(source="recode")
+
+    papers = [bbc_news, wsj, natgeo, reuters, nyt, newsweek,
+        techcrunch, espn, independent, polygon, time_mag, huffpost,
+        bbc_sport, bus_insider, recode]
     categories = {bbc_news['source']: 'general', wsj['source']: 'business', 
         natgeo['source']: 'science', reuters['source']: 'general',
-        nyt['source']:'general'}
+        nyt['source']:'general', 
+        newsweek['source']: 'general', techcrunch['source']: 'technology', 
+        espn['source']: 'sport', independent['source']: 'general',
+        polygon['source']:'gaming', 
+        time_mag['source']: 'general', huffpost['source']: 'business', 
+        bbc_sport['source']: 'sport', bus_insider['source']: 'business',
+        recode['source']:'technology'}
 
     output = list()
     for paper in papers:
