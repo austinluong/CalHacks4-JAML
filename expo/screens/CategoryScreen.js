@@ -1,42 +1,85 @@
 import React from 'react';
-import { 
-  ScrollView, 
-  StyleSheet 
+import {
+  Image,
+  StyleSheet,
+  Text,
+  View,
+  Slider,
 } from 'react-native';
-import { ExpoLinksView } from '@expo/samples';
 
+class SliderEntry extends React.Component {
+  render() {
+    return (
+      <View style={styles.sliderEntry}>
+        <Text style={styles.sliderLabel}>
+          {this.props.label}
+        </Text>
+        <Slider maximumTrackTintColor="#ffa600" thumbTintColor="#ffa600" />
+      </View>
+    )
+  }
+}
 
 export default class CategoryScreen extends React.Component {
-  static navigationOptions = {
-    title: 'Categories',
-  };
-  
   render() {
-    return(
-      <ScrollView style={styles.container}>
-        {/* Go ahead and delete ExpoLinksView and replace it with your
-           * content, we just wanted to provide you with some helpful links */}
-        <ExpoLinksView />
-      </ScrollView>
-    );     
-    
+    return (
+    <View style={styles.container}>
+        <View style={styles.padded}>
+          <Text style={styles.header}>Categories </Text>
+          <View
+            style={{
+              borderBottomColor: 'rgb(151, 151, 151)',
+              borderBottomWidth: 1,
+              paddingTop: 5,
+            }}
+          />
+          <Text style={styles.regular}>
+            Curate your newsfeed by adjusting the filters below.
+          </Text>
+
+          <SliderEntry label="Positivity"></SliderEntry>
+          <SliderEntry label="Likes"></SliderEntry>
+          <SliderEntry label="Trustworthiness"></SliderEntry>
+        </View>
+      </View>
+    );
   }
 }
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    paddingTop: 15,
-    backgroundColor: '#fff',
+    backgroundColor: '#ffff',
   },
-  item: {
-      flexDirection: 'row',
-      justifyContent: 'space-between',
-      alignItems: 'center',
-      padding: 30,
-      margin: 2,
-      borderColor: '#2a4944',
-      borderWidth: 1,
-      backgroundColor: '#d2f7f1'
-   },
+  padded: {
+    flex:1,
+    marginLeft: 30,
+    marginRight: 30,
+    paddingTop: 30,
+  },
+  regular: {
+    paddingTop: 10,
+    fontSize: 16,
+    textAlign: 'left',
+    fontFamily: 'circular-book',
+    color: 'rgb(74, 74, 74)',
+  },
+  sliderLabel: {
+    fontSize: 16,
+    textAlign: 'left',
+    fontFamily: 'circular-book',
+    color: 'rgb(74, 74, 74)',
+    paddingBottom: 15,
+  },
+  header: {
+    fontWeight: 'bold',
+    fontSize: 40,
+    textAlign: 'left',
+    fontFamily: 'circular-bold',
+    color: 'rgb(74, 74, 74)',
+  },
+  sliderEntry: {
+    paddingTop: 20,
+    paddingBottom: 10,
+  },
 });

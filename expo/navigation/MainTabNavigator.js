@@ -10,14 +10,14 @@ import Colors from '../constants/Colors';
 
 import HomeScreen from '../screens/HomeScreen';
 import CategoryScreen from '../screens/CategoryScreen';
-import ProfileScreen from '../screens/ProfileScreen';
+import SettingsScreen from '../screens/SettingsScreen';
 
 
 export default TabNavigator({
   Home: {
     screen: HomeScreen,
     navigationOptions: {
-      showLabel: false,
+      header: null,
       tabBarIcon: <Image source={require('../assets/icons/homeIcon.png')}/>,
       showIcon: true
     }
@@ -25,15 +25,15 @@ export default TabNavigator({
   Categories: {
     screen: CategoryScreen,
     navigationOptions: {
-      showLabel: false,
+      header: null,
       tabBarIcon: <Image source={require('../assets/icons/categoriesIconInactive.png')}/>,
       showIcon: true
     }
   },
-  Profile: {
-    screen: ProfileScreen,
+  Settings: {
+    screen: SettingsScreen,
     navigationOptions: {
-      showLabel: false,
+      header: null,
       tabBarIcon: <Image source={require('../assets/icons/profileInactiveIcon.png')}/>,
       showIcon: true
     }
@@ -42,7 +42,8 @@ export default TabNavigator({
   {
     tabBarComponent: TabBarBottom,
     tabBarPosition: 'bottom',
-    animationEnabled: false,
+    showLabel: false,
+    animationEnabled: true,
     swipeEnabled: false,
   
 });

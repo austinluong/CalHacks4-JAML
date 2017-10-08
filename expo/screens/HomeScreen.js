@@ -94,11 +94,6 @@ class NewsEntry extends React.Component {
 
 
 export default class HomeScreen extends React.Component {
-  static navigationOptions = {
-    header: null,
-    title: 'Home',
-  };
-
   render() {
     return (
       <View style={styles.container}>
